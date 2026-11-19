@@ -1,4 +1,4 @@
-# Candidate v6 CI coverage repair
+# Test coverage and historical validation
 
 The current full-suite coverage registry contains 32 approved modules. It adds
 tests/test_portfolio_documentation.py (16 portable static cases) to the retained
@@ -13,8 +13,18 @@ full tests. Optional local MLflow fixtures remain function-scoped and isolated.
 The full lock-enforced pilot is still intentionally blocked by partial macOS and
 unavailable Linux locks. No native Linux result follows from metadata tests.
 
-New v6 executed counts are recorded separately in the private validation report;
-none is inferred from the historical tables below. Historical 30/31-module counts
+The v6 consolidated selection executed 1,455 collected cases in one CPython
+3.11.5 macOS arm64 process: **1,447 passed**, eight native Linux tests deselected,
+zero failures/errors/skips and 20 retained warnings. All 32 approved modules were
+represented. A separate targeted selection passed 162 cases with 14 warnings;
+these overlap the full session and are not added to its total. The independent
+lock-enforced CI pilot was blocked before worker execution, not passed.
+
+Later targeted sessions: v7 120 passed, v8 120 passed, P5-E 40 passed and P6-A
+42 passed, each with zero failures or warnings. P6-A also checked all 112
+approved paths and all 50 scientific hashes. These are separate historical
+validations, not a full-suite rerun on the current GitHub commit. See
+[reproducibility](reproducibility.md) for scope and evidence references. Historical 30/31-module counts
 and private per-case evidence references describe earlier candidates, not current
 CI acceptance. Do not add overlapping run totals or imply unavailable evidence is
 included in a public source snapshot. Decision chronology, rights and vulnerability
@@ -40,7 +50,9 @@ CI gate currently rejects, so no new full CI success or native Linux run is impl
 
 # Candidate v3 test coverage
 
-Private candidate; **BLOCKED_BY_IP_OR_LICENSE**. Counts below are collected cases,
+Historical v3 rights-review status was **BLOCKED_BY_IP_OR_LICENSE**; this records
+that stage, not current repository visibility or a new rights determination.
+Counts below are collected cases,
 not independently certified financial outcomes. The full per-case JSON/CSV matrix
 is retained outside the source tree in private validation evidence. It records
 node identity, category, platform, direct dependency imports, fixture dependencies,
@@ -116,8 +128,9 @@ have no measured duration. Overall CI limits are authoritative time budgets.
 
 ## Fail-closed CI acceptance
 
-Both workflows are manual-only. The full driver requires every one of the 30
-classified modules, exact eight-native collection, mandatory source-identity,
+Both workflows are manual-only. At the historical v3 stage, the full driver
+required all 30 classified modules; the current registry requires all 32 modules.
+The preserved acceptance contract requires exact eight-native collection, mandatory source-identity,
 isolation and real integration cases, nonzero selection, every selected case
 passed and matching clean JUnit. Linux allows no deselection; macOS permits ONLY
 the eight known native exclusions. Skips, xfails, errors and omissions reject.

@@ -1,8 +1,8 @@
 # APF Portfolio — Causal ML Research and Verifiable Artifacts
 
-A quantitative research engineering project connecting **purged temporal validation, real XGBoost training, immutable research artifacts and exact prediction replay**. A separate synthetic execution simulator makes cash, costs and portfolio accounting inspectable.
+APF Portfolio is a synthetic quantitative machine learning research project demonstrating **causal temporal validation, XGBoost modeling, immutable research artifacts, and reproducible prediction replay**. A separate synthetic execution simulator makes cash, costs and portfolio accounting inspectable.
 
-**Private candidate v8. Rights notice finalized; publication is not authorized.** The supported demonstration uses synthetic data only. It is a research software portfolio, not production trading software or evidence of investment returns.
+The supported demonstration uses **synthetic data only**. It is a research software portfolio, not production trading software or evidence of investment returns.
 
 ## Research problem
 
@@ -25,15 +25,18 @@ flowchart TD
     G[Deterministic synthetic OHLCV generator] --> F[Causal features and five-observation labels]
     F --> P[Frozen temporal partitions and two maturity purges]
     P --> S[Fitting-only RF selection and RobustScaler]
-    S --> X[XGBoost fitting]
+    S --> X[XGBoost fitting and validation-based early stopping]
     P --> V[Mature validation block]
     V --> X
     X --> K[Keyed held-out predictions]
     P --> H[Held-out block]
     H --> K
     K --> R[Fit receipt and immutable research bundle]
+    P --> R
+    S --> R
+    X --> R
     R --> Q[Exact functional replay]
-    R -. Separate independent check .-> I[Integrity verified; decision chronology incomplete]
+    R -. Separate independent check .-> I[Independent verification; decision-time evidence incomplete]
     K --> E[Held-out classification evaluation]
     H --> E
     K --> D[Historical synthetic signals constructed after publication]
@@ -114,7 +117,7 @@ python -I -B -m examples.synthetic_research --output /tmp/apf-demo-tracked-new -
 
 The equivalent installed entrypoint is `apf-synthetic`. Existing output directories are rejected. Demonstration execution blocks network activity and needs no credentials or real market data. Installation may require artifacts that are not locally available; no download is required or authorized merely by running the demo.
 
-See [installation](docs/installation.md) for the distinction between Core, tracking, tests, legacy modules and currently incomplete locks. The commands above describe the supported interface, not a newly executed v5 training run.
+See [installation](docs/installation.md) for the distinction between Core, tracking, tests, legacy modules and currently incomplete locks. The commands above describe the supported interface, not a claim that training was rerun for this documentation update.
 
 ## Tests and reproducibility evidence
 
@@ -129,14 +132,19 @@ Historical evidence is separated by candidate and scope; these counts are **not 
 | P4-D2B / functional replay | Same saved synthetic fit; 55 held-out predictions | Maximum difference 0.0; zero class mismatches |
 | P4-D2C / temporal evidence audit | Static/archive assessment | Expected incomplete decision-time evidence |
 | P4-D3 / Linux readiness | No accessible Linux runtime | Zero of eight mandatory native cases executed |
+| P5-D1 / v6 | CPython 3.11.5, macOS arm64; one consolidated pytest process, 32 modules | 1,447 passed; zero failures; eight native Linux tests deselected; 20 warnings |
+| P5-D3 / v7 | Same platform; targeted rights/metadata checks | 120 passed; zero failures or warnings; 50 scientific files unchanged |
+| P5-D4 / v8 | Same platform; targeted notice/metadata checks | 120 passed; zero failures or warnings; rights-reservation notice finalized |
+| P5-E | Same platform; bounded source-release checks | 40 passed; zero failures or warnings; vulnerability status unverified |
+| P6-A | Same platform; focused snapshot checks | 42 passed; zero failures or warnings; 112 files verified; 50 scientific files unchanged |
 
-Warnings were retained in the original runs. Full candidate tests require the reviewed development/tracking environment, not Core alone. The retained macOS checkout command is:
+These are separate historical validations, not tests rerun on the current GitHub commit. The additional v6 targeted selection passed 162 tests (14 warnings); it overlaps the full suite and is not an extra unique-test total. The independent CI pilot was **blocked by partial dependency locks**, not passed. Warnings were retained in the original runs. Full candidate tests require the reviewed development/tracking environment, not Core alone. The retained macOS checkout command is:
 
 ```bash
 python -m pytest tests -k 'not native_linux'
 ```
 
-This deselects eight native cases; it is not Linux validation. V4's inherited CI remains fail-closed on incomplete dependency evidence. V5 documentation checks are recorded separately from those historical scientific runs. See [reproducibility](docs/reproducibility.md) and [test matrix](docs/test_matrix.md).
+This deselects eight native cases; it is not Linux validation. CI remains fail-closed on incomplete dependency evidence. Later targeted documentation, rights and snapshot checks do not replace the historical scientific run. See [reproducibility](docs/reproducibility.md) and [test matrix](docs/test_matrix.md).
 
 ## Known limitations
 
@@ -146,7 +154,7 @@ This deselects eight native cases; it is not Linux validation. V4's inherited CI
 - macOS dependency locks are partial; Linux locks are unavailable; vulnerability status is unverified.
 - No independently repeated hash-identical build or exact cross-refit training-state claim.
 - Native model parsing and cooperative Python guards are not a hostile-code security boundary.
-- Generated/adapted source scope, third-party evidence, platform-term acceptance and publication approval remain under review.
+- Third-party license evidence gaps and source-rights qualifications remain documented; any public release requires separate author approval.
 
 ## Repository structure
 
@@ -169,8 +177,8 @@ Define versioned synthetic decision-time artifacts before extending verification
 
 ## Licensing status
 
-The [rights-reservation notice](LICENSE) records **Copyright (c) 2026 Ochenash. All Rights Reserved.** It applies only to author-owned source and documentation. This is not an open-source release; this private candidate has not been published.
+The [rights-reservation notice](LICENSE) records **Copyright (c) 2026 Ochenash. All Rights Reserved.** It applies only to author-owned source and documentation. This is not an open-source release. Repository access does not expand the rights granted by the notice.
 
-The intended future GitHub presentation is publicly viewable for recruitment and professional evaluation of the source. No general reuse, modification or redistribution permission is granted. Sublicensing or commercial exploitation requires separate written authorization, and local execution is not automatically authorized by this notice. Applicable law and platform terms remain controlling; the notice does not technically disable viewing, cloning or forking, or override GitHub's platform permissions.
+This repository presents the source for recruitment and professional evaluation, subject to its access controls. No general reuse, modification or redistribution permission is granted. Sublicensing or commercial exploitation requires separate written authorization, and local execution is not automatically authorized by this notice. Applicable law and platform terms remain controlling; the notice does not technically disable viewing, cloning or forking, or override GitHub's platform permissions.
 
-Third-party components retain their own licenses and notices; the author's reservation does not relicense them. Synthetic research validation is not live-trading readiness or verified investment performance. Final source scope, platform-term acceptance and publication require separate approval.
+Third-party components retain their own licenses and notices; the author's reservation does not relicense them. Synthetic research validation is not live-trading readiness or verified investment performance. Third-party obligations and applicable platform terms remain controlling. Any change to public visibility requires separate author approval.
