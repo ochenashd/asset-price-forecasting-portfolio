@@ -1,0 +1,8 @@
+# LOCK_PARTIAL — NOT AN INSTALLATION OR BUILD REPRODUCIBILITY CLAIM.
+# Target: macOS arm64, CPython 3.11.5. Wrong-platform use must be rejected
+# by a future wrapper. Per-target selection already evaluates dependency markers.
+# Offline installed-metadata closure; no fresh resolver/install was executed.
+# Excludes APF wheel; bootstrap is a separate profile. Toolchain closure unverified.
+# Review hashes/origins and supply exact wheels before any authorized use.
+# pip-23.2.1-py3-none-any.whl
+pip==23.2.1 --hash=sha256:7ccf472345f20d35bdc9d1841ff5f313260c2c33fe417f48c30ac46cccabf5be

@@ -1,0 +1,80 @@
+name: Manual research filesystem Linux validation
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  filesystem:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    defaults:
+      run:
+        shell: bash --noprofile --norc -euo pipefail {0}
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PIP_CONFIG_FILE: /dev/null
+      PIP_INDEX_URL: https://pypi.org/simple
+      PIP_EXTRA_INDEX_URL: ''
+      PIP_DISABLE_PIP_VERSION_CHECK: '1'
+    steps:
+      - name: Check out only code and tests
+        timeout-minutes: 3
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+          submodules: false
+          lfs: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /src/
+            /scripts/
+            /tests/
+            /.github/
+            /pyproject.toml
+            /requirements/locks/
+            /examples/
+      - name: Select Python 3.11
+        timeout-minutes: 5
+        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
+        with:
+          python-version: '3.11.5'
+      - name: Require complete offline dependency evidence before installation
+        timeout-minutes: 2
+        run: |
+          timeout --kill-after=10s 60s python -B scripts/verify_portfolio_environment.py --manifest requirements/locks/manifest.json --checkout . --target linux-x86_64-cp3115 --profile filesystem --mode require-complete
+      - name: Create isolated temporary root and environment
+        timeout-minutes: 2
+        run: |
+          test "$(uname -s)" = Linux
+          APF_CI_ROOT="$(mktemp -d "$RUNNER_TEMP/apf-fs-XXXXXXXX")"
+          printf 'APF_FS_CI_ROOT=%s\n' "$APF_CI_ROOT" >> "$GITHUB_ENV"
+          timeout --kill-after=10s 60s python -m venv "$APF_CI_ROOT/environment"
+      - name: Install only filesystem test dependencies
+        timeout-minutes: 6
+        run: |
+          timeout --kill-after=15s 300s "$APF_FS_CI_ROOT/environment/bin/python" -m pip install \
+            --index-url https://pypi.org/simple \
+            pytest==8.3.5 numpy==1.26.4 pandas==2.2.3 pyarrow==18.1.0 omegaconf==2.3.0
+          timeout --kill-after=10s 30s "$APF_FS_CI_ROOT/environment/bin/python" -m pip check
+      - name: Validate actual Linux filesystem contracts
+        timeout-minutes: 13
+        run: |
+          timeout --kill-after=20s 720s "$APF_FS_CI_ROOT/environment/bin/python" -B \
+            scripts/research_filesystem_ci.py --root "$APF_FS_CI_ROOT"
+      - name: Upload only bounded sanitized evidence
+        if: ${{ always() && env.APF_FS_CI_ROOT != '' }}
+        timeout-minutes: 3
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        with:
+          name: research-filesystem-linux-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 3
+          if-no-files-found: warn
+          include-hidden-files: false
+          path: |
+            ${{ env.APF_FS_CI_ROOT }}/evidence/junit.xml
+            ${{ env.APF_FS_CI_ROOT }}/evidence/summary.json
+            ${{ env.APF_FS_CI_ROOT }}/evidence/diagnostics.json

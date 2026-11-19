@@ -1,0 +1,5 @@
+schema: apf-public-tracking-v1
+enabled: false
+backend: fresh_local_sqlite_only
+external_destination: forbidden
+legacy_tracking: disabled
