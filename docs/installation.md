@@ -1,6 +1,6 @@
 # Installation and supported commands
 
-These instructions are for the author or separately authorized reviewers. The All Rights Reserved notice does not automatically authorize local execution, copying or installation beyond applicable law and platform terms. No public repository exists and no publication is authorized.
+These instructions are for the author or separately authorized reviewers. The All Rights Reserved notice does not automatically authorize local execution, copying or installation beyond applicable law and platform terms. Repository access and these instructions do not authorize public release or expand the rights granted by the notice. A public-visibility transition requires a separate, explicit author decision.
 
 ## Recorded supported environment
 

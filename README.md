@@ -137,6 +137,9 @@ Historical evidence is separated by candidate and scope; these counts are **not 
 | P5-D4 / v8 | Same platform; targeted notice/metadata checks | 120 passed; zero failures or warnings; rights-reservation notice finalized |
 | P5-E | Same platform; bounded source-release checks | 40 passed; zero failures or warnings; vulnerability status unverified |
 | P6-A | Same platform; focused snapshot checks | 42 passed; zero failures or warnings; 112 files verified; 50 scientific files unchanged |
+| P6-C1 | Same platform; automated documentation/source-integrity checks | 42 passed; zero failures or warnings; 50 scientific files unchanged |
+
+P6-C1 changed only `README.md`, `docs/reproducibility.md` and `docs/test_matrix.md`; Mermaid structure was checked. GitHub Mermaid rendering was subsequently confirmed visually by the author, separately from the automated checks; this was not an automated rendering test.
 
 These are separate historical validations, not tests rerun on the current GitHub commit. The additional v6 targeted selection passed 162 tests (14 warnings); it overlaps the full suite and is not an extra unique-test total. The independent CI pilot was **blocked by partial dependency locks**, not passed. Warnings were retained in the original runs. Full candidate tests require the reviewed development/tracking environment, not Core alone. The retained macOS checkout command is:
 
